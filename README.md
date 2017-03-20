@@ -13,6 +13,7 @@ Available query parameters:
 
 - `text` - Location text (E.g. `/?text=Melbourne, Victoria`)
 - `lat` and `lng` - Coordinates (E.g. `/?lat=-37&lng=145`)
+- `when` - Forecast date - Options: `today`, `tomorrow`, `{D/MM}` [date] (E.g. `/?text=Melbourne, Victoria&when=24/3`)
 
 ## Deploy
 [![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/jxom/micro-weather)
