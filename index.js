@@ -39,7 +39,7 @@ const handleGetWeather = async ({ params, res }) => {
     let diff;
     if (params.when && params.when !== 'today') {
       if (params.when === 'tomorrow') {
-        recordOffset = 1;
+        recordOffset = 2;
       } else if (moment(params.when, 'D/MM').isValid()) {
         diff = moment(params.when, 'D/MM').diff(moment(), 'days');
         recordOffset = diff + 1;
