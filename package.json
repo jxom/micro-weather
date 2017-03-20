@@ -1,0 +1,26 @@
+{
+  "name": "micro-weather",
+  "version": "0.0.1",
+  "description": "A micro-service that gets the current weather conditions!",
+  "main": "index.js",
+  "scripts": {
+    "start": "micro",
+    "dev": "nodemon --exec 'micro .'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jxom/micro-weather.git"
+  },
+  "author": "Jake Moxey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jxom/micro-weather/issues"
+  },
+  "homepage": "https://github.com/jxom/micro-weather#readme",
+  "dependencies": {
+    "micro": "^7.1.0",
+    "micro-api": "^0.1.1",
+    "yql": "^1.0.2",
+    "yqlp": "^0.2.0"
+  }
+}
