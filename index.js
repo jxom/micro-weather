@@ -4,7 +4,7 @@ const moment = require('moment');
 const YQL = require('yqlp');
 
 const BASE_URL = 'https://query.yahooapis.com/v1/public';
-const USAGE_TEXT = 'Usage:\n\n\nGET /?text=<suburb,town,city,state>\nE.g. /?text=Melbourne, Victoria\n\nGET /?lat=<latitude>&lng=<longitude>\nE.g. /?lat=-37&lng=145';
+const USAGE_TEXT = 'Gets the current (or tomorrow, or D/MM) weather conditions!\n\nUsage:\n\n\nGET /?text=<suburb,town,city,state>\nE.g. /?text=Melbourne, Victoria\n\nGET /?lat=<latitude>&lng=<longitude>\nE.g. /?lat=-37&lng=145';
 
 const ymlSelectForecastQuery = (whereText, offset = 0) => `select location, wind, atmosphere, item.condition, item.forecast from weather.forecast where woeid in (select woeid from geo.places where text="${whereText}") LIMIT 1 OFFSET ${offset}`;
 const fahrenheitToCelcius = (tempFahrenheit) => ((tempFahrenheit - 32) * (5/9));
@@ -39,10 +39,10 @@ const handleGetWeather = async ({ params, res }) => {
     let diff;
     if (params.when && params.when !== 'today') {
       if (params.when === 'tomorrow') {
-        recordOffset = 2;
+        recordOffset = 1;
       } else if (moment(params.when, 'D/MM').isValid()) {
         diff = moment(params.when, 'D/MM').diff(moment(), 'days');
-        recordOffset = diff + 2;
+        recordOffset = diff + 1;
       } else {
         return send(res, 400, { error: 'Query parameter \'when\' accepts only: `today`, `tomorrow`, or `{D/MM}` (date)' });
       }
