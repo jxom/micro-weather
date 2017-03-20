@@ -20,6 +20,7 @@
   "dependencies": {
     "micro": "^7.1.0",
     "micro-api": "^0.1.1",
+    "moment": "^2.18.0",
     "yql": "^1.0.2",
     "yqlp": "^0.2.0"
   }
