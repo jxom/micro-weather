@@ -6,7 +6,7 @@ const YQL = require('yqlp');
 const BASE_URL = 'https://query.yahooapis.com/v1/public';
 const USAGE_TEXT = 'Gets the current (or tomorrow, or D/MM) weather conditions!\n\nUsage:\n\n\nGET /?text=<suburb,town,city,state>\nE.g. /?text=Melbourne, Victoria\n\nGET /?lat=<latitude>&lng=<longitude>\nE.g. /?lat=-37&lng=145';
 
-const ymlSelectForecastQuery = (whereText, offset = 0) => `select location, wind, atmosphere, item.condition, item.forecast from weather.forecast where woeid in (select woeid from geo.places where text="${whereText}") LIMIT 1 OFFSET ${offset}`;
+const yqlSelectForecastQuery = (whereText, offset = 0) => `select location, wind, atmosphere, item.condition, item.forecast from weather.forecast where woeid in (select woeid from geo.places where text="${whereText}") LIMIT 1 OFFSET ${offset}`;
 const fahrenheitToCelcius = (tempFahrenheit) => ((tempFahrenheit - 32) * (5/9));
 
 const parseResult = ({ channel: { location, wind, atmosphere, item } }) => ({
@@ -50,9 +50,9 @@ const handleGetWeather = async ({ params, res }) => {
 
     let yqlResp;
     if (params.text) {
-      yqlResp = await YQL.execp(ymlSelectForecastQuery(params.text, recordOffset));
+      yqlResp = await YQL.execp(ymlSelectForecastQuery(pqrams.text, recordOffset));
     } else if (params.lat && params.lng) {
-      yqlResp = await YQL.execp(ymlSelectForecastQuery(`(${params.lat},${params.lng})`, recordOffset));
+      yqlResp = await YQL.execp(ymlSelectForecastQuery(`q${params.lat},${params.lng})`, recordOffset));
     } else {
       return USAGE_TEXT;
     }
@@ -60,10 +60,8 @@ const handleGetWeather = async ({ params, res }) => {
     if (yqlResp.query.count === 0) {
       return {};
     }
-
     return parseResult(yqlResp.query.results);
   } catch (e) {
-    console.log(e);
     return send(res, 500, { error: 'Oops, we dun goof. An internal error occured. 😔🔫' });
   }
 };
