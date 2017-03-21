@@ -53,7 +53,7 @@ const handleGetWeather = async ({ params, res }) => {
     if (params.text) {
       yqlResp = await YQL.execp(yqlSelectForecastQuery(params.text, recordOffset));
     } else if (params.lat && params.lng) {
-      yqlResp = await YQL.execp(yqlSelectForecastQuery(`q${params.lat},${params.lng})`, recordOffset));
+      yqlResp = await YQL.execp(yqlSelectForecastQuery(`(${params.lat},${params.lng})`, recordOffset));
     } else {
       return USAGE_TEXT;
     }
