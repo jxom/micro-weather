@@ -34,6 +34,7 @@ const parseResult = ({ channel: { location, wind, atmosphere, item } }) => ({
 });
 
 const handleGetWeather = async ({ params, res }) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
   try {
     let recordOffset = 0;
     let diff;
@@ -62,7 +63,6 @@ const handleGetWeather = async ({ params, res }) => {
     }
     return parseResult(yqlResp.query.results);
   } catch (e) {
-    console.log(e);
     return send(res, 500, { error: 'Oops, we dun goof. An internal error occured. 😔🔫' });
   }
 };
