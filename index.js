@@ -41,7 +41,7 @@ const handleGetWeather = async ({ params, res }) => {
       if (params.when === 'tomorrow') {
         recordOffset = 2;
       } else if (moment(params.when, 'D/MM').isValid()) {
-        diff = moment(params.when, 'D/MM').diff(moment(), 'days');
+        diff = moment.utc(params.when, 'D/MM').diff(moment.utc().startOf('day'), 'days');
         recordOffset = diff + 1;
       } else {
         return send(res, 400, { error: 'Query parameter \'when\' accepts only: `today`, `tomorrow`, or `{D/MM}` (date)' });
@@ -50,9 +50,9 @@ const handleGetWeather = async ({ params, res }) => {
 
     let yqlResp;
     if (params.text) {
-      yqlResp = await YQL.execp(ymlSelectForecastQuery(pqrams.text, recordOffset));
+      yqlResp = await YQL.execp(yqlSelectForecastQuery(params.text, recordOffset));
     } else if (params.lat && params.lng) {
-      yqlResp = await YQL.execp(ymlSelectForecastQuery(`q${params.lat},${params.lng})`, recordOffset));
+      yqlResp = await YQL.execp(yqlSelectForecastQuery(`q${params.lat},${params.lng})`, recordOffset));
     } else {
       return USAGE_TEXT;
     }
@@ -62,6 +62,7 @@ const handleGetWeather = async ({ params, res }) => {
     }
     return parseResult(yqlResp.query.results);
   } catch (e) {
+    console.log(e);
     return send(res, 500, { error: 'Oops, we dun goof. An internal error occured. 😔🔫' });
   }
 };
