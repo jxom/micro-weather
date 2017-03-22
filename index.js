@@ -66,7 +66,7 @@ const handleGetWeather = async ({ params, res }) => {
 
     const response = parseResult(yqlResp.query.results);
     if (params.getOutfitPrediction && JSON.parse(params.getOutfitPrediction)) {
-      response.outfitPredition = predictOutfit({
+      response.outfitPrediction = predictOutfit({
         windSpeed: response.current.windSpeed,
         condition: response.day.condition,
         highTemp: response.day.high.tempCelcius,
