@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/jxom/micro-weather#readme",
   "dependencies": {
+    "lodash": "^4.17.4",
     "micro": "^7.1.0",
     "micro-api": "^0.1.1",
     "moment": "^2.18.0",

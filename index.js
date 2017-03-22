@@ -3,6 +3,8 @@ const microApi = require('micro-api');
 const moment = require('moment');
 const YQL = require('yqlp');
 
+const predictOutfit = require('./predictOutfit');
+
 const BASE_URL = 'https://query.yahooapis.com/v1/public';
 const USAGE_TEXT = 'Gets the current (or tomorrow, or D/MM) weather conditions!\n\nUsage:\n\n\nGET /?text=<suburb,town,city,state>\nE.g. /?text=Melbourne, Victoria\n\nGET /?lat=<latitude>&lng=<longitude>\nE.g. /?lat=-37&lng=145';
 
@@ -61,7 +63,16 @@ const handleGetWeather = async ({ params, res }) => {
     if (yqlResp.query.count === 0) {
       return {};
     }
-    return parseResult(yqlResp.query.results);
+
+    const response = parseResult(yqlResp.query.results);
+    if (params.getOutfitPrediction && JSON.parse(params.getOutfitPrediction)) {
+      response.outfitPredition = predictOutfit({
+        windSpeed: response.current.windSpeed,
+        condition: response.day.condition,
+        highTemp: response.day.high.tempCelcius,
+      });
+    }
+    return response;
   } catch (e) {
     return send(res, 500, { error: 'Oops, we dun goof. An internal error occured. 😔🔫' });
   }
