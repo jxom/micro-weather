@@ -1,6 +1,8 @@
 const includes = require('lodash/includes');
 const get = require('lodash/get');
 
+const CLOTHES = require('./clothes');
+
 const CONDITIONS = [
   'STORM',
   'THUNDERSTORMS',
@@ -26,65 +28,65 @@ const OUTFITS = {
   HEAD: {
     DEFAULT: null,
     TEMP: {
-      COLD: 'beanie',
-      VERY_COLD: 'beanie'
+      COLD: CLOTHES.BEANIE,
+      VERY_COLD: CLOTHES.BEANIE,
     },
     CONDITION: {
-      SNOW: 'beanie',
-      COLD: 'beanie',
-      HOT: 'hat'
+      SNOW: CLOTHES.BEANIE,
+      COLD: CLOTHES.BEANIE,
+      HOT: CLOTHES.HAT,
     }
   },
   TORSO: {
-    DEFAULT: 't-shirt',
+    DEFAULT: CLOTHES.T_SHIRT,
     TEMP: {
-      VERY_HOT: [['singlet'], ['t-shirt']],
-      HOT: 't-shirt',
-      MILD: [['long-sleeve shirt'], ['t-shirt']],
-      COLD: 'jumper',
-      VERY_COLD: [['heavy jumper', 'thermals']]
+      VERY_HOT: [[CLOTHES.SINGLET], [CLOTHES.T_SHIRT]],
+      HOT: CLOTHES.T_SHIRT,
+      MILD: [[CLOTHES.LONG_SLEEVE_SHIRT], [CLOTHES.T_SHIRT]],
+      COLD: CLOTHES.JUMPER,
+      VERY_COLD: [[CLOTHES.SNOW_JACKET, CLOTHES.THERMALS]]
     },
     CONDITION: {
-      THUNDERSTORMS: 'jacket',
-      RAIN: 'jacket',
-      SNOW: 'snow jacket',
-      DRIZZLE: 'jacket',
-      SHOWERS: 'jacket',
-      HAIL: 'jacket',
-      WINDY: 'windbreaker',
-      COLD: 'jumper',
-      THUNDERSHOWERS: 'jacket',
-      STORM: 'jacket'
+      THUNDERSTORMS: CLOTHES.JACKET,
+      RAIN: CLOTHES.JACKET,
+      SNOW: CLOTHES.SNOW_JACKET,
+      DRIZZLE: CLOTHES.JACKET,
+      SHOWERS: CLOTHES.JACKET,
+      HAIL: CLOTHES.JACKET,
+      WINDY: CLOTHES.WINDBREAKER,
+      COLD: CLOTHES.JUMPER,
+      THUNDERSHOWERS: CLOTHES.JACKET,
+      STORM: CLOTHES.JACKET
     }
   },
   PANTS: {
-    DEFAULT: 'pants',
+    DEFAULT: CLOTHES.PANTS,
     TEMP: {
-      VERY_HOT: 'short shorts',
-      HOT: 'shorts',
-      MILD: 'pants',
-      COLD: 'pants',
-      VERY_COLD: [['pants', 'thermals']]
+      VERY_HOT: CLOTHES.SHORTS,
+      HOT: CLOTHES.SHORTS,
+      MILD: CLOTHES.PANTS,
+      COLD: CLOTHES.PANTS,
+      VERY_COLD: [[CLOTHES.PANTS, CLOTHES.THERMALS]]
     }
   },
   FEET: {
-    DEFAULT: 'shoes',
+    DEFAULT: CLOTHES.SHOES,
     TEMP: {
-      VERY_HOT: [['thongs'], ['sandals'], ['crocs']],
-      HOT: [['thongs'], ['sandals'], ['crocs']],
-      MILD: 'shoes',
-      COLD: 'shoes',
-      VERY_COLD: 'shoes'
+      VERY_HOT: [[CLOTHES.THONGS], [CLOTHES.SANDALS], [CLOTHES.CROCS]],
+      HOT: [[CLOTHES.THONGS], [CLOTHES.SANDALS], [CLOTHES.CROCS]],
+      MILD: CLOTHES.SHOES,
+      COLD: CLOTHES.SHOES,
+      VERY_COLD: CLOTHES.SHOES
     },
     CONDITION: {
-      THUNDERSTORMS: 'gumboots',
-      RAIN: 'gumboots',
-      SNOW: 'snow boots',
-      SHOWERS: 'gumboots',
-      HAIL: 'gumboots',
-      HOT: [['thongs'], ['sandals'], ['crocs']],
-      THUNDERSHOWERS: 'gumboots',
-      STORM: 'gumboots'
+      THUNDERSTORMS: CLOTHES.GUMBOOTS,
+      RAIN: CLOTHES.GUMBOOTS,
+      SNOW: CLOTHES.SNOW_BOOTS,
+      SHOWERS: CLOTHES.GUMBOOTS,
+      HAIL: CLOTHES.GUMBOOTS,
+      HOT: [[CLOTHES.THONGS], [CLOTHES.SANDALS], [CLOTHES.CROCS]],
+      THUNDERSHOWERS: CLOTHES.GUMBOOTS,
+      STORM: CLOTHES.GUMBOOTS
     }
   },
 };
@@ -114,7 +116,7 @@ const predictOutfit = ({ windSpeed, condition, highTemp }) => {
   }
 
   CONDITIONS.forEach(cond => {
-    if (condition.includes(cond.toLowerCase())) {
+    if (condition.toLowerCase().includes(cond.toLowerCase())) {
       outfit = getOutfit(outfit, `CONDITION.${cond}`);
       return;
     }
